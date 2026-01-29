@@ -1,5 +1,9 @@
 # ZRE-DARTOS - Zips Racing
-Operating system for Zips Racing's DART data acquisition system.
+Operating system creation tool for Zips Racing's DART data acquisition system.
+
+## Project Information
+
+This project can only be installed on a Raspberry Pi running Raspberry Pi OS, similar hardware, or a virtual machine. This is due to the fact that a 64-bit ARM compiler and Debian ARM packages are required to generate the OS image. For accessing pre-built images, see the [Releases](https://github.com/ZipsRacingElectric/ZRE-DARTOS/releases) section of this repository.
 
 ## Software Architecture
 
