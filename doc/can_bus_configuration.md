@@ -1,0 +1,3 @@
+# CAN Bus Configuration
+
+Electrically, the DART's CAN interface is implemented using the MCP25625 integrated circuit. This IC is a combination CAN controller and CAN transceiver, meaning it allows devices to directly connect to a CAN bus. The MCP25625 has a SPI interface, meaning the processor it is connected to must use SPI to control the peripheral. The driver for implementing this control is built into the Linux SocketCAN kernel module and the TODO(Barach)...
