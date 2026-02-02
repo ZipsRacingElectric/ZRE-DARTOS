@@ -1,4 +1,8 @@
 device:
+  # The default username and password of the system. Normally a plaintext password would be a security concern, however the
+  # DART is isolated from the Internet and the password is meant to be common knowledge.
+  # Also note there appear to be security requirements enabled that disallow this password being simpler. Note sure how to
+  # disable.
   user1: zre
   user1pass: GoZipsFall2023!!
 
@@ -6,6 +10,7 @@ include:
   file: trixie-minbase-ab.yaml
 
 image:
+  # TODO(Barach): Resize this
   system_part_size: 1500M # Cage + wayland + chromium + deps
   name: dart_os
 
@@ -14,4 +19,5 @@ layer:
   extra: rpi-splash-screen
 
 splash:
+  # TODO(Barach): Splash image is corrupted.
   image_path: ${@SRCROOT}/splash.tga
