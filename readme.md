@@ -1,5 +1,6 @@
-# ZRE-DARTOS - Zips Racing
-Operating system creation tool for Zips Racing's DART data acquisition system.
+# Dashboard and Racing Telemetry (DART) - Zips Racing
+
+Firmware and operating system creation tool for Zips Racing's DART data acquisition system.
 
 ## Project Information
 
