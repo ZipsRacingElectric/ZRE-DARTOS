@@ -19,5 +19,4 @@ layer:
   extra: rpi-splash-screen
 
 splash:
-  # TODO(Barach): Splash image is corrupted.
   image_path: ${@SRCROOT}/splash.tga
