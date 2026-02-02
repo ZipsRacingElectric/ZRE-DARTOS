@@ -26,5 +26,5 @@ mmdebstrap:
       export KIOSK_RUNDIR="/home/$IGconf_device_user1"
       export KIOSK_URL="$IGconf_kiosk_url"
       export KIOSK_APP="/usr/bin/chromium $KIOSK_URL https://time.is/London --kiosk --noerrdialogs --disable-infobars --no-first-run --enable-features=OverlayScrollbar --start-maximized"
-      envsubst < kiosk.service.tpl > $1/etc/systemd/system/kiosk.service
+      envsubst < init_system.service > $1/etc/systemd/system/init_system.service
     - $BDEBSTRAP_HOOKS/enable-units "$1" kiosk

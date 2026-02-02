@@ -6,6 +6,15 @@ Firmware and operating system creation tool for Zips Racing's DART data acquisit
 
 This project can only be installed on a Raspberry Pi running Raspberry Pi OS, similar hardware, or a virtual machine. This is due to the fact that a 64-bit ARM compiler and Debian ARM packages are required to generate the OS image. For accessing pre-built images, see the [Releases](https://github.com/ZipsRacingElectric/ZRE-DARTOS/releases) section of this repository.
 
+### Usage
+
+TODO(Barach): Does RPi recommend adding to system path, or should we use a submodule for version stability?
+
+Working in this directory:
+```
+../rpi-image-gen/rpi-image-gen build -S . -c dart.yaml
+```
+
 ## Software Architecture
 
 The system's software is divided into 3 core applications:
