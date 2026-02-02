@@ -3,10 +3,10 @@ Description=DART Init-System Service
 After=multi-user.target
 
 [Service]
-User=$KIOSK_USER
+User=$DART_USER
 TTYPath=/dev/tty1
-Environment="XDG_RUNTIME_DIR=$KIOSK_RUNDIR"
-ExecStart=/usr/bin/cage -- $KIOSK_APP
+Environment="XDG_RUNTIME_DIR=$DART_RUNDIR"
+ExecStart=/usr/bin/cage -- $DART_EXEC
 StandardError=journal
 
 [Install]

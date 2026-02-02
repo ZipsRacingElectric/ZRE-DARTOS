@@ -7,14 +7,11 @@ include:
 
 image:
   system_part_size: 1500M # Cage + wayland + chromium + deps
-  name: mykioskimage
+  name: dart_os
 
 layer:
-  app: example-kiosk
+  app: dart-layer
   extra: rpi-splash-screen
 
 splash:
   image_path: ${@SRCROOT}/splash.tga
-
-kiosk:
-  url: "https://raspberrypi.com"
