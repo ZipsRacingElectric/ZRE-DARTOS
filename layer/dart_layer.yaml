@@ -22,5 +22,4 @@ mmdebstrap:
       export DART_EXEC="/usr/bin/chromium https://raspberrypi.com https://time.is/London --kiosk --noerrdialogs --disable-infobars --no-first-run --enable-features=OverlayScrollbar --start-maximized"
       envsubst < init_system.service > $1/etc/systemd/system/init_system.service
     - $BDEBSTRAP_HOOKS/enable-units "$1" init_system
-    - |
-      cp config.txt $1/boot/firmware/config.txt
+    - cp config.txt $1/boot/firmware/config.txt
