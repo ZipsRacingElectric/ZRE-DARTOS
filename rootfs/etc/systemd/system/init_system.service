@@ -6,7 +6,7 @@ After=multi-user.target
 User=zre
 TTYPath=/dev/tty1
 Environment="XDG_RUNTIME_DIR=/home/zre/"
-ExecStart=/usr/bin/cage -- /home/zre/init_system/bin/init-system /home/zre/init_system/bin/pre-exec /home/zre/init_system/bin/exec-can-mdf-logger /home/zre/init_system/bin/exec-dashboard-gui
+ExecStart=/home/zre/init_system/bin/init-system /home/zre/init_system/bin/pre-exec /home/zre/init_system/bin/exec-can-mdf-logger /home/zre/init_system/bin/exec-dashboard-gui
 StandardError=journal
 
 [Install]
