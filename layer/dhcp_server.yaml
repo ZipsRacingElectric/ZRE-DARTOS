@@ -12,5 +12,5 @@ mmdebstrap:
   packages:
     - dnsmasq
   customize-hooks:
-    - cp 20-wired.network $1/etc/systemd/network/
+    - cp rootfs/etc/systemd/network/20-wired.network $1/etc/systemd/network/
     - cp dnsmasq.conf $1/etc/
