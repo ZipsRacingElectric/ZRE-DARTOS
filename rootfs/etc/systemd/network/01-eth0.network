@@ -1,6 +1,8 @@
+# Match this configuration against the 'eth0' device.
 [Match]
 Name=eth0
 
+# Set the IP address on this interface to a known IP address.
 [Network]
 Address=192.168.0.1/24
 Gateway=192.168.0.1

@@ -7,13 +7,15 @@ Fortunately both of these can done relatively easily with 3rd party software. Sp
 
 ## Static IP Configuration
 
-The device can be assigned a static IP address via configuring the systemd-networkd service.
+The device can be assigned a static IP address via configuring the systemd-networkd service. The `/etc/systemd/network/` directory contains the configuration files for each network interface. As there is only one network interface on the DART (`eth0`), this is the only interface that needs configured.
 
 In file `/etc/systemd/network/01-eth0.network`:
 ```
+# Match this configuration against the 'eth0' device.
 [Match]
 Name=eth0
 
+# Set the IP address on this interface to a known IP address.
 [Network]
 Address=192.168.0.1/24
 Gateway=192.168.0.1
@@ -43,4 +45,10 @@ dhcp-option=3,192.168.0.50
 
 ## SSH Configuration
 
-SSH is, by default, not enabled on most linux distributions due to security reasons. To enabled SSH TODO(Barach)...
+SSH is, by default, not enabled on most linux distributions due to security reasons. To enabled SSH, the `ssh` package must be installed and the system daemon started.
+
+```
+systemctl start ssh
+```
+
+TODO(Barach): Pub/priv key
