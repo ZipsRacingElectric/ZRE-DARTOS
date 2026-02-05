@@ -16,7 +16,7 @@ image:
 
 layer:
   device: dart-device
-  software: zre-cantools
+  software: dart-software
   splash: rpi-splash-screen
   dhcp: dhcp-server
   ssh: ssh-server

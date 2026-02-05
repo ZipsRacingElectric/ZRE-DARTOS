@@ -1,4 +1,4 @@
-BIN_DIR		:= ../../bin
+BIN_DIR		:= ./bin
 SRC_DIR		:= .
 
 C_BIN		:= $(BIN_DIR)/init-system
