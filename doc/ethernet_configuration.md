@@ -7,10 +7,17 @@ Fortunately both of these can done relatively easily with 3rd party software. Sp
 
 ## Static IP Configuration
 
-The device can be assigned a static IP address via the Network Manager CLI, or `nmcli`:
+The device can be assigned a static IP address via configuring the systemd-networkd service.
 
+In file `/etc/systemd/network/20-wired.network`:
 ```
-nmcli dev mod eth0 ipv4.method manual ipv4.addr "192.168.0.1/24"
+[Match]
+Name=eth0
+
+[Network]
+Address=192.168.0.1/24
+Gateway=192.168.0.1
+DNS=192.168.0.1
 ```
 
 ## DHCP Configuration
@@ -21,7 +28,7 @@ By default, Dnsmasq only acts as a DNS server, not a DHCP server. As the DART is
 
 The desired settings for DHCP-only operation are provided below. For more details on these settings, refer to the Dnsmasq man pages (https://dnsmasq.org/docs/dnsmasq-man.html)
 
-In file `/etc/dnsmasq.conf`
+In file `/etc/dnsmasq.conf`:
 ```
 # Setting the DNS port to 0 disables the DNS functionality of DNSMasq. We are only interested in DHCP functionality.
 port=0

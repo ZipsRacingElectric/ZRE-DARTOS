@@ -2,7 +2,7 @@
 # X-Env-Layer-Name: dart-device
 # X-Env-Layer-Category: dart
 # X-Env-Layer-Desc: TODO(Barach)
-# X-Env-Layer-Requires: rpi-user-credentials,systemd-net-min
+# X-Env-Layer-Requires: rpi-user-credentials
 #
 # X-Env-VarPrefix: dart
 #
