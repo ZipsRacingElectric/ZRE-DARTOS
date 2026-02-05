@@ -21,7 +21,6 @@ layer:
   dhcp: dhcp-server
   ssh: ssh-server
 
-# TODO(Barach): Fill in path
 zre_cantools:
   path: ./zre_cantools/
 
