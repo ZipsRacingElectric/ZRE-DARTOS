@@ -11,7 +11,7 @@ include:
 
 image:
   # TODO(Barach): Resize this
-  system_part_size: 2500M # Cage + wayland + chromium + deps
+  system_part_size: 2500M
   name: dart_os
 
 layer:

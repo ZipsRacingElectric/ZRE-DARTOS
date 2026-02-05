@@ -1,5 +1,5 @@
-BIN_DIR		:= ./bin
-SRC_DIR		:= ./src
+BIN_DIR		:= ../../bin
+SRC_DIR		:= .
 
 C_BIN		:= $(BIN_DIR)/init-system
 C_SRC		:= $(wildcard $(SRC_DIR)/*.c)

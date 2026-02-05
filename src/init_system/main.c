@@ -1,4 +1,4 @@
-// DARTOS Init-System ---------------------------------------------------------------------------------------------------------
+// DART-OS Init-System --------------------------------------------------------------------------------------------------------
 //
 // Author: Cole Barach
 // Date: Created: 2026.01.20
@@ -25,14 +25,17 @@
 
 // Constants ------------------------------------------------------------------------------------------------------------------
 
-#define STDIO_PREFIX "[DARTOS INIT-SYSTEM] "
+#define STDIO_PREFIX "[DART-OS INIT-SYSTEM] "
 
 // Entrypoints ----------------------------------------------------------------------------------------------------------------
 
 int main (int argc, char** argv)
 {
 	if (argc < 2)
+	{
+		fprintf (stderr, "Invalid usage. Usage: init-system <Pre-Execution Application> <Application 0> <Application 1> ...\n");
 		return -1;
+	}
 
 	char* initProcess = argv [1];
 	pid_t initPid = fork ();
@@ -119,7 +122,7 @@ int main (int argc, char** argv)
 	float timeDiff = (timeEnd.tv_sec - timeStart.tv_sec) * 1e3f + (timeEnd.tv_nsec - timeStart.tv_nsec) * 1e-6f;
 
 	printf (STDIO_PREFIX "All processes terminated in %f ms.\n", timeDiff);
-	
+
 	shutdownInterruptDealloc (&interrupt);
 
 	return 0;
