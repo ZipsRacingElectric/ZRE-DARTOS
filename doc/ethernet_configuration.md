@@ -9,7 +9,7 @@ Fortunately both of these can done relatively easily with 3rd party software. Sp
 
 The device can be assigned a static IP address via configuring the systemd-networkd service.
 
-In file `/etc/systemd/network/20-wired.network`:
+In file `/etc/systemd/network/01-eth0.network`:
 ```
 [Match]
 Name=eth0
