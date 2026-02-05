@@ -23,7 +23,7 @@ layer:
 
 # TODO(Barach): Fill in path
 zre_cantools:
-  path: ../zre_cantools/
+  path: ./zre_cantools/
 
 splash:
   image_path: ${@SRCROOT}/splash.tga

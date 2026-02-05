@@ -1,0 +1,3 @@
+[submodule "ZRE-CAN-Tools"]
+	path = zre_cantools
+	url = git@github.com:ZipsRacingElectric/ZRE-CAN-Tools.git
