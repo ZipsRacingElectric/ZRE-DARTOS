@@ -247,7 +247,7 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 		gpiod_line_request_read_edge_events (interrupt->lineRequest, eventBuffer, EVENT_BUFFER_CAPACITY);
 
 		// Read the state of the GPIO line to check it is still low (wasn't triggered by noise or something).
-		code = gpiod_line_request_get_value (interrupt->lineRequest, 0);
+		code = gpiod_line_request_get_value (interrupt->lineRequest, interrupt->offsets [0]);
 		if (code < 0)
 		{
 			perror (STDIO_PREFIX "Failed to read line value");
