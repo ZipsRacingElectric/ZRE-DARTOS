@@ -7,7 +7,7 @@ device:
   user1pass: GoZipsFall2023!!
 
 include:
-  file: bookworm-minbase-ab.yaml
+  file: trixie-minbase-ab.yaml
 
 image:
   # TODO(Barach): Resize this
