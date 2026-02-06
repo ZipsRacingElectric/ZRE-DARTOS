@@ -12,6 +12,7 @@ mmdebstrap:
   packages:
     - cage
     - libgpiod-dev
+    - gpiod
   customize-hooks:
     - |
       cp -r ./src/init_system/ $1/home/zre/

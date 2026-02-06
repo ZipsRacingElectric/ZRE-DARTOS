@@ -6,7 +6,7 @@ After=multi-user.target
 User=zre
 TTYPath=/dev/tty1
 Environment="XDG_RUNTIME_DIR=/home/zre/"
-ExecStart=/home/zre/init_system/bin/init-system /home/zre/init_system/bin/pre-exec.sh /home/zre/init_system/bin/post-exec.sh /home/zre/init_system/bin/exec-can-mdf-logger.sh /home/zre/init_system/bin/exec-dashboard-gui.sh
+ExecStart=/home/zre/init_system/bin/init-system gpiochip0 21 /home/zre/init_system/bin/pre-exec.sh /home/zre/init_system/bin/post-exec.sh /home/zre/init_system/bin/exec-can-mdf-logger.sh /home/zre/init_system/bin/exec-dashboard-gui.sh
 StandardError=journal
 
 [Install]
