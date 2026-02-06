@@ -25,3 +25,4 @@ mmdebstrap:
       uchroot "$1" 'sudo chown -R zre /home/zre/zre_cantools/'
       uchroot "$1" 'make -B -C /home/zre/zre_cantools/'
       uchroot "$1" 'sudo env --chdir=/home/zre/zre_cantools sh install.sh'
+      cp $IGconf_zre_cantools_path/font/* $1/usr/share/font/

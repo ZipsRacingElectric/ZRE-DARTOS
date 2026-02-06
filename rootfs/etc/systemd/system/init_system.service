@@ -3,9 +3,10 @@ Description=DART Init-System Service
 After=multi-user.target
 
 [Service]
-User=zre
+User=root
 TTYPath=/dev/tty1
 Environment="XDG_RUNTIME_DIR=/home/zre/"
+Environment="ZRE_CANTOOLS_DIR=/home/zre/zre_cantools"
 ExecStart=/home/zre/init_system/bin/init-system gpiochip0 21 /home/zre/init_system/bin/pre-exec.sh /home/zre/init_system/bin/post-exec.sh /home/zre/init_system/bin/exec-can-mdf-logger.sh /home/zre/init_system/bin/exec-dashboard-gui.sh
 StandardError=journal
 
