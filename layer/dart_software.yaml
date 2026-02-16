@@ -20,7 +20,7 @@ mmdebstrap:
       uchroot "$1" 'make -B -C /home/zre/init_system/'
       cp rootfs/etc/systemd/system/init_system.service $1/etc/systemd/system/init_system.service
       cp rootfs/etc/systemd/system/init_system_jk.service $1/etc/systemd/system/init_system_jk.service
-    - $BDEBSTRAP_HOOKS/enable-units "$1" init_system_jk
+    - $BDEBSTRAP_HOOKS/enable-units "$1" init_system
     - |
       uchroot "$1" 'sudo groupadd -r gpio'
       uchroot "$1" 'sudo usermod -aG gpio zre'
