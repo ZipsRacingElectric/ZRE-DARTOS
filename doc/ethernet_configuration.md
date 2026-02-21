@@ -52,3 +52,11 @@ systemctl start ssh
 ```
 
 TODO(Barach): Pub/priv key
+
+## System Booting
+
+Normally, the ethernet interface of the DART is unconnected. Systemd will, by default, wait for the device's ethernet interface to come online before allowing other system services to start. This adds ~90 seconds to the boot time when no ethernet cable is connected, which is obviously unacceptable. To avoid this, the `systemd-networkd-wait-online.service` service can be disabled.
+
+```
+systemctl disable systemd-networkd-wait-online.service
+```

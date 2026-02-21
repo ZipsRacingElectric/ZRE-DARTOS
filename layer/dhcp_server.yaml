@@ -14,3 +14,4 @@ mmdebstrap:
   customize-hooks:
     - cp rootfs/etc/systemd/network/01-eth0.network $1/etc/systemd/network/
     - cp rootfs/etc/dnsmasq.conf $1/etc/
+    - $BDEBSTRAP_HOOKS/disable-units "$1" systemd-networkd-wait-online.service
