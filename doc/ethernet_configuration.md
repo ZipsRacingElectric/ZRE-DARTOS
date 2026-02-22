@@ -75,7 +75,7 @@ With this simplification, there is only 1 SSH key that needs added to the host's
 
 Upon connecting to an SSH host for the first time, a client will normally add the host's public key to the `known_hosts` file. This file is used to validate that any future connections to the same IP address are to the same host. If the host provides the incorrect public key, the client will reject the connection.
 
-In the case of the DART, this is an issue, as every DART has the same IP address, but a unique key pair. If using the standard SSH configuration, the client will only ever be able to connect to the same instance a DART and no others. This functionality is intended to prevent man-in-the-middle attacks, where a malicious actor pretends to be a host.
+In the case of the DART, this is an issue, as every DART has the same IP address, but a unique key pair. If using the standard SSH configuration, the client will only ever be able to connect to the same instance of a DART and no others. This functionality is intended to prevent man-in-the-middle attacks, where a malicious actor pretends to be a host.
 
 **Note: Disabling the `known_hosts` file is very bad practice. In the case of the DART, it is only acceptable due to the fact the DART is isolated from the Internet.**
 
