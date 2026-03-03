@@ -1,3 +1,5 @@
+# Technical Documentation - Index
+
 ## Software Architecture
 
 The system's software is divided into 3 core applications:
@@ -29,13 +31,15 @@ The data logging application is responsible for logging all traffic on the devic
 
 [https://github.com/ZipsRacingElectric/ZRE-CAN-Tools](https://github.com/ZipsRacingElectric/ZRE-CAN-Tools)
 
-## CAN Bus Configuration
+## Operating System Configuration
+
+### CAN Bus Configuration
 
 The DART exposes 2 CAN busses for interacting with the vehicle's low-voltage electrical systems. The Raspberry Pi Compute Module does not come with CAN hardware, however there is quite a bit of support built into the Linux kernel. This is discussed further in the below file:
 
 [can_bus_configuration.md](can_bus_configuration.md)
 
-## Ethernet Configuration
+### Ethernet Configuration
 
 The DART exposes an ethernet connection to allow data log retrieval. When a host computer is connected to the ethernet port, the DART automatically assigns it an IP address. The host computer can then create an SSH connection using the DART's static IP address, allowing it to copy, move, and delete data logs as necessary. This connection can also be used to update the DART's firmware. In order for this process to work, the DART must host a DHCP server and be bound to a static IP address. This is discussed further in the below file:
 
@@ -46,3 +50,9 @@ Having a static IP address alone is not enough for the host computer to communic
 `192.168.0.1`
 
 **This should not be changed unless all DART devices and all host PCs are updated accordingly.**
+
+## Notes
+
+For details about this project's configration files, refer to RPI-Image-Gen's documentation:
+
+https://github.com/raspberrypi/rpi-image-gen/
