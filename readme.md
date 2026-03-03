@@ -6,60 +6,96 @@ Firmware and operating system creation tool for Zips Racing's DART data acquisit
 
 This project can only be installed on a Raspberry Pi running Raspberry Pi OS, similar hardware, or a virtual machine. This is due to the fact that a 64-bit ARM compiler and Debian ARM packages are required to generate the OS image. For accessing pre-built images, see the [Releases](https://github.com/ZipsRacingElectric/ZRE-DARTOS/releases) section of this repository.
 
-### Usage
+The remainder of this documentation will assume a Raspberry Pi is being used. The "DART Programmer" RPi is configured exactly for this.
 
-TODO(Barach): Does RPi recommend adding to system path, or should we use a submodule for version stability?
+## Setup
 
-Working in this directory:
+### RPI-Image-Generator
+
+RPI-Image-Generator (https://github.com/raspberrypi/rpi-image-gen/) is the main tool used in creating OS images for the DART.
+
+To install RPI-Image-Generator:
+
 ```
-../rpi-image-gen/rpi-image-gen build -S . -c dart.yaml
+git clone https://github.com/raspberrypi/rpi-image-gen.git
+cd rpi-image-gen
+sudo ./install_deps.sh
 ```
 
-## Software Architecture
+To add RPI-Image-Generator to your system path, add the below to your `~/.bashrc` file (replacing the path appropriately):
 
-The system's software is divided into 3 core applications:
-- The dashboard graphical user interface (GUI)
-- The data logging application
-- The init-system application
+```
+export PATH=$PATH:/path/to/rpi-image-gen/
+```
 
-With this design, the GUI and data logger are completely independent and portable, meaning development can be done independent of the system’s hardware. The responsibilities and details of these applications is discussed below.
+### RPIBoot
 
-![doc/software_architecture.png](doc/software_architecture.png)
+RPIBoot is the first tool used to flash the OS image onto the CM5 system-on-module.
 
-### The Init-System Application
+To install RPIBoot:
 
-The init-system is the first (custom) application run when the operating system boots. Note that this application does not fill the role of the operating system's primary init-system (that is still systemd), rather it acts as a secondary one, being launched itself by the primary init system. The init-system is also responsible for gracefully terminating all custom applications upon detecting the device has lost power.
+```
+sudo apt install git libusb-1.0-0-dev pkg-config build-essential
+git clone --recurse-submodules --shallow-submodules --depth=1 https://github.com/raspberrypi/usbboot
+cd usbboot
+make
+sudo make install
+```
 
-Technical documentation for the init-system can be found at:
+RPIBoot is installed by the last command, so no need to add to the system path.
 
-[doc/init_system_application.md](doc/init_system_application.md)
+### RPI-Imager
 
-### The Dashboard GUI Application
+RPI-Imager is the second tool used to flash the OS image on the CM5 system-on-module.
 
-The dashboard GUI is the application responsible for rendering the dashboard's display. Launched by the init-system, this application parses out relevant information from the device's CAN busses and renders it the the device's display. As this application is part of the ZRE-CAN-Tools project, its source code and documentation can be found in said project's repository:
+To install RPI-Imager
 
-[https://github.com/ZipsRacingElectric/ZRE-CAN-Tools](https://github.com/ZipsRacingElectric/ZRE-CAN-Tools)
+```
+sudo apt install rpi-imager
+```
 
-### The Data Logging Application
+### Project Setup
 
-The data logging application is responsible for logging all traffic on the device's CAN busses. Launched by the init-system, this application runs in the background of the device. A periodic status message is broadcast onto both CAN busses, allowing the dashboard GUI to indicate whether the data logger is running or has failed. As this application is part of the ZRE-CAN-Tools project, its source code and documentation can be found in said project's repository:
+- Clone this repo
+	- Via SSH: `git clone https://github.com/ZipsRacingElectric/DART-ZR.git`
+	- Via HTTPS: `git clone git@github.com:ZipsRacingElectric/DART-ZR.git`
 
-[https://github.com/ZipsRacingElectric/ZRE-CAN-Tools](https://github.com/ZipsRacingElectric/ZRE-CAN-Tools)
+- Initialize/update submodules, run:
+	- `git submodule init`
+	- `git submodule update`
 
-## CAN Bus Configuration
+## Usage
 
-The DART exposes 2 CAN busses for interacting with the vehicle's low-voltage electrical systems. The Raspberry Pi Compute Module does not come with CAN hardware, however there is quite a bit of support built into the Linux kernel. This is discussed further in the below file:
+### Generating an OS image
 
-[doc/can_bus_configuration.md](doc/can_bus_configuration.md)
+To generate an OS image, in a terminal:
+- Change directories to this project's root.
+- Run `rpi-image-gen build -S . -c dart.yaml`
 
-## Ethernet Configuration
+Note this process normally takes ~10 minutes.
 
-The DART exposes an ethernet connection to allow data log retrieval. When a host computer is connected to the ethernet port, the DART automatically assigns it an IP address. The host computer can then create an SSH connection using the DART's static IP address, allowing it to copy, move, and delete data logs as necessary. This connection can also be used to update the DART's firmware. In order for this process to work, the DART must host a DHCP server and be bound to a static IP address. This is discussed further in the below file:
+Once complete, the OS image can be found at `work/image-dart_os/dart_os.img`.
 
-[doc/ethernet_configuration.md](doc/ethernet_configuration.md)
+### Flashing an OS image
 
-Having a static IP address alone is not enough for the host computer to communicate with the DART, this IP address must be known to both devices. To solve this, all DART devices are configured with the below IP address.
+To flash an OS image to the CM5 system-on-module, the USB Type-C interface can be used.
 
-`192.168.0.1`
+This section will describe the process using the "DART Programmer" RPi and "DART Dev Board" hardware.
 
-**This should not be changed unless all DART devices and all host PCs are updated accordingly.**
+- Unplug the DART Dev Board's power supply, if not already.
+- Set the "EMMC Boot" switch to "Disabled".
+- Connect a USB cable from the USB 3.0 Type-A port of the DART Programmer to the USB Type-C port of the DART Dev Board.
+- On the DART Programmer, run `sudo rpiboot`.
+- On the DART Programmer, run `sudo rpi-imager`.
+	- Select any RPi device (doesn't matter with a custom image)
+	- Select "Use custom" and navigate to the DART's `.img` file.
+	- Select the CM5 as the storage device.
+	- Confirm the writing.
+
+Note if you are just testing an image, the validation step can be skipped pretty safely. If you are flashing a CM5 for installing in a DART, **do not** skip the validation.
+
+## Technical Documentation
+
+For technical documentation, see:
+
+[doc/index.md](doc/index.md)
