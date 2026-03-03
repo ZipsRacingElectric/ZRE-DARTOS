@@ -94,6 +94,11 @@ This section will describe the process using the "DART Programmer" RPi and "DART
 
 Note if you are just testing an image, the validation step can be skipped pretty safely. If you are flashing a CM5 for installing in a DART, **do not** skip the validation.
 
+To boot the SoM after flashing:
+- Unplug the USB Type-C cable from the DART Dev Board.
+- Set the "EMMC Boot" switch to "Enabled".
+- Plug in the DART Dev Board's power supply.
+
 ## Technical Documentation
 
 For technical documentation, see:
