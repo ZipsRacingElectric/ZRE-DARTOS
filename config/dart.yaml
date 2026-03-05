@@ -16,6 +16,7 @@ image:
   name: dart_os
 
 layer:
+  user: rpi-user-credentials
   device: dart-device
   software: dart-software
   splash: rpi-splash-screen

@@ -53,6 +53,9 @@ INT          | GPIO 16              | MCP25625 interrupt pin
 The `/boot/firmware/config.txt` file is used to enable the desired device tree overlays. For the DART's configuration, the below lines can be appended to the end of this file:
 
 ```
+# Enable the SPI peripheral
+dtparam=spi=on
+
 # Enable the MCP25625 on SPI 0 (CS 8) as can0. Oscillator is 16MHz, interrupt
 # pin is GPIO 6, chip select is GPIO 8.
 dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=6,cs=8
