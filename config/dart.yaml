@@ -10,13 +10,11 @@ include:
   file: trixie-minbase.yaml
 
 image:
-  # TODO(Barach): Resize this
   boot_part_size: 200%
   root_part_size: 300%
   name: dart_os
 
 layer:
-  user: rpi-user-credentials
   device: dart-device
   software: dart-software
   splash: rpi-splash-screen
