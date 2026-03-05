@@ -1,7 +1,7 @@
 # METABEGIN
 # X-Env-Layer-Name: zre-cantools
 # X-Env-Layer-Category: dart
-# X-Env-Layer-Desc: TODO(Barach)
+# X-Env-Layer-Desc: Installs ZRE-CAN-Tools on the destination OS.
 #
 # X-Env-VarPrefix: zre_cantools
 #
@@ -15,12 +15,21 @@
 ---
 mmdebstrap:
   packages:
+
+    # See ZRE-CAN-Tools readme for dependency list.
     - gcc
     - make
     - libncurses-dev
     - libgtk-4-dev
+
   customize-hooks:
+
+    # Copy the source code into the destination filesystem and compile it.
     - cp -r $IGconf_zre_cantools_path/ $1/root/
     - uchroot "$1" 'make -B -C /root/zre_cantools/'
+
+    # Run ZRE-CAN-Tools' installer.
     - uchroot "$1" 'sudo env --chdir=/root/zre_cantools sh install.sh'
+
+    # Install required fonts.
     - cp $IGconf_zre_cantools_path/font/* $1/usr/share/fonts/

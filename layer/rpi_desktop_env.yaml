@@ -1,7 +1,7 @@
 # METABEGIN
 # X-Env-Layer-Name: rpi-desktop-env
 # X-Env-Layer-Category: rpi
-# X-Env-Layer-Desc: TODO(Barach)
+# X-Env-Layer-Desc: Installs Raspberry Pi OS's desktop environment.
 #
 # X-Env-VarPrefix: rpi
 #
@@ -9,6 +9,8 @@
 ---
 mmdebstrap:
   packages:
+
+    # Install all Raspberry Pi OS Desktop packages
     - rpd-wayland-core
     - rpd-wayland-extras
     - rpd-theme

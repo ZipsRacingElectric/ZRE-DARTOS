@@ -1,8 +1,8 @@
 # METABEGIN
 # X-Env-Layer-Name: dart-device
 # X-Env-Layer-Category: dart
-# X-Env-Layer-Desc: Device layer for the DART.
-# X-Env-Layer-Requires:
+# X-Env-Layer-Desc: Device layer for the DART. This configures everything hardware-specific to the DART, mainly, the device's
+#   CAN interfaces.
 #
 # X-Env-VarPrefix: dart
 #
@@ -15,7 +15,7 @@ mmdebstrap:
     # iproute2 provides the 'ip' command. Used for setting up CAN devices (init_system's pre_exec shell script).
     - iproute2
 
-    # can-utils provides common utilities for working with CAN devices.
+    # can-utils provides common utilities for working with CAN devices. Not needed, but very useful in debugging.
     - can-utils
 
   customize-hooks:

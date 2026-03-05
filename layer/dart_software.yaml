@@ -1,7 +1,9 @@
 # METABEGIN
 # X-Env-Layer-Name: dart-software
 # X-Env-Layer-Category: dart
-# X-Env-Layer-Desc: TODO(Barach)
+# X-Env-Layer-Desc: Installs all application software on the destination OS. This includes the init-system and ZRE-CAN-Tools (via layer
+#   requirements).
+#
 # X-Env-Layer-Requires: zre-cantools
 #
 # X-Env-VarPrefix: dart
@@ -9,13 +11,25 @@
 # METAEND
 ---
 mmdebstrap:
+
   packages:
+
+    # cage-kiosk is the application used to start the dashboard-gui from systemd.
     - cage
+
+    # libgpiod is required by the init-system for accessing GPIO.
     - libgpiod-dev
     - gpiod
+
   customize-hooks:
+
+    # Copy the source code into the destination filesystem and compile it.
     - cp -r ./src/init_system/ $1/root/
     - uchroot "$1" 'make -B -C /root/init_system/'
+
+    # Install the init-system service and enable it.
     - cp rootfs/etc/systemd/system/init_system.service $1/etc/systemd/system/init_system.service
     - $BDEBSTRAP_HOOKS/enable-units "$1" init_system
+
+    # Create the data logging destination directory.
     - mkdir $1/root/zre/

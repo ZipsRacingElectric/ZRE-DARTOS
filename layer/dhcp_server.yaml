@@ -1,17 +1,29 @@
 # METABEGIN
 # X-Env-Layer-Name: dhcp-server
 # X-Env-Layer-Category: dart
-# X-Env-Layer-Desc: TODO(Barach): IP / dev as variable?
+# X-Env-Layer-Desc: Configures the OS to act as a DHCP server. This both configures the device with a static IP address and
+#   installs/enables a DNS server.
+#
 # X-Env-Layer-Requires: systemd-net-min
 #
-# X-Env-VarPrefix: dhcp_server
+# X-Env-VarPrefix: dhcp-server
 #
 # METAEND
 ---
 mmdebstrap:
+
   packages:
+
+    # dnsmasq is the DHCP server used by the DART.
     - dnsmasq
+
   customize-hooks:
+
+    # Install the ethernet adapter's configuration.
     - cp rootfs/etc/systemd/network/01-eth0.network $1/etc/systemd/network/
+
+    # Install dnsmasq configuration.
     - cp rootfs/etc/dnsmasq.conf $1/etc/
+
+    # Disable systemd-networkd-wait-online, see doc/ethernet_configuration.md
     - $BDEBSTRAP_HOOKS/disable-units "$1" systemd-networkd-wait-online.service
