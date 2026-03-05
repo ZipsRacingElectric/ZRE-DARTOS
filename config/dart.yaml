@@ -21,7 +21,6 @@ layer:
   splash: rpi-splash-screen
   dhcp: dhcp-server
   ssh: openssh-server
-  resize_fs: resize-fs
 
 zre_cantools:
   path: ./src/zre_cantools/
