@@ -25,7 +25,7 @@ mmdebstrap:
 
     # Copy the source code into the destination filesystem and compile it.
     - cp -r ./src/init_system/ $1/root/
-    - uchroot "$1" 'make -B -C /root/init_system/'
+    - chroot "$1" /bin/sh -c 'make -B -C /root/init_system/'
 
     # Install the init-system service and enable it.
     - cp rootfs/etc/systemd/system/init_system.service $1/etc/systemd/system/init_system.service

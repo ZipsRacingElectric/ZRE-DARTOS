@@ -1,10 +1,9 @@
 device:
   # The default username and password of the system. Normally a plaintext password would be a security concern, however the
   # DART is isolated from the Internet and the password is meant to be common knowledge.
-  # Also note there appear to be security requirements enabled that disallow this password being simpler. Note sure how to
-  # disable.
-  user1: root
-  user1pass: GoZipsFall2023!!
+  # Also note there are security requirements preventing this password being any simpler.
+  user1: zre
+  user1pass: Zips2026!
 
 include:
   file: trixie-minbase.yaml

@@ -26,10 +26,10 @@ mmdebstrap:
 
     # Copy the source code into the destination filesystem and compile it.
     - cp -r $IGconf_zre_cantools_path/ $1/root/
-    - uchroot "$1" 'make -B -C /root/zre_cantools/'
+    - chroot "$1" /bin/sh -c 'make -B -C /root/zre_cantools/'
 
     # Run ZRE-CAN-Tools' installer.
-    - uchroot "$1" 'sudo env --chdir=/root/zre_cantools sh install.sh'
+    - chroot "$1" /bin/sh -c 'sudo env --chdir=/root/zre_cantools sh install.sh'
 
     # Install required fonts.
     - cp $IGconf_zre_cantools_path/font/* $1/usr/share/fonts/
