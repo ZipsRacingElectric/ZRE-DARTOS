@@ -2,7 +2,7 @@ device:
   # The default username and password of the system. Normally a plaintext password would be a security concern, however the
   # DART is isolated from the Internet and the password is meant to be common knowledge.
   # Also note there are security requirements preventing this password being any simpler.
-  user1: zre
+  user1: root
   user1pass: Zips2026!
 
 include:
