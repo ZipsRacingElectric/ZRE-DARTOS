@@ -99,6 +99,12 @@ To boot the SoM after flashing:
 - Set the "EMMC Boot" switch to "Enabled".
 - Plug in the DART Dev Board's power supply.
 
+### Updating Firmware
+
+To update the firmware installed on an existing DART, the device does not need disassembled. Rather, see:
+
+[doc/updating_firmware.md](doc/updating_firmware.md)
+
 ## Technical Documentation
 
 For technical documentation, see:
