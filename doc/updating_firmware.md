@@ -1,52 +1,25 @@
 # Updating Firmware
 
-Note: This guide assumes the user has a development version (git repo & source code) of ZRE-CAN-Tools installed and ZRE-CAN-Tools is present in the system's path.
-
-The commands used in this guide are written for a POSIX shell, however they can be executed in Windows by substituting the environment variables.
-
-- For command prompt, replace `$VARIABLE` with `%VARIABLE%`.
-- For powershell, replace `$VARIABLE` with `$Env:VARIABLE`.
+Note: This guide assumes the user has ZRE-CAN-Tools installed on the system's path.
 
 ## Updating ZRE-CAN-Tools
 
-To update the DART's version of ZRE-CAN-Tools, the target version can simply be copied onto the device and compiled.
+To update ZRE-CAN-Tools, the dart-cli can be used:
 
 ```
-# Stop the init-system
-dart-cli --ssh -- root@192.168.0.1 'systemctl stop init_system'
-
-# Backup the DART's version of ZRE-CAN-Tools
-dart-cli --ssh -- root@192.168.0.1 'mv /root/zre_cantools/ /root/zre_cantools_backup/'
-
-# Copy the target version of ZRE-CAN-Tools onto the DART
-dart-cli --ssh -- root@192.168.0.1 'mkdir -p /root/zre_cantools'
-dart-cli --scp -- -r $ZRE_CANTOOLS_DIR/config/ root@192.168.0.1:/root/zre_cantools/
-dart-cli --scp -- -r $ZRE_CANTOOLS_DIR/src/ root@192.168.0.1:/root/zre_cantools/
-dart-cli --scp -- -r $ZRE_CANTOOLS_DIR/lib/ root@192.168.0.1:/root/zre_cantools/
-dart-cli --scp -- $ZRE_CANTOOLS_DIR/include.mk root@192.168.0.1:/root/zre_cantools/
-dart-cli --scp -- $ZRE_CANTOOLS_DIR/makefile root@192.168.0.1:/root/zre_cantools/
-
-# Compile ZRE-CAN-Tools on the device
-dart-cli --ssh -- root@192.168.0.1 make -C /root/zre_cantools/
-
-# Restart the init-system
-dart-cli --ssh -- root@192.168.0.1 'systemctl restart init_system'
-
-# Delete the old version of ZRE-CAN-Tools
-dart-cli --ssh -- root@192.168.0.1 'rm -r /root/zre_cantools_backup/'
+dart-cli --update-zre-cantools=/path/to/zre_cantools/
 ```
 
-The above commands assume the installed version of ZRE-CAN-Tools is the target version to be copied to the DART. To use a version that isn't currently installed, the `$ZRE_CANTOOLS_DIR` variable can be replaced with the desired directory.
+This command will move the DART's version of ZRE-CAN-Tools to a backup directory (`/root/zre_cantools_backup`), copy the target version of ZRE-CAN-Tools onto the DART, and compile said version. If at any point the process fails, the dart-cli will attempt to recover the backup. If this process fails, it is the responsibility of the user to manually restore the backup.
 
-If the file transfer or compilation fails, the DART's old version of ZRE-CAN-Tools can be restored by:
+## Updating the Init-system
+
+To update the init-system, the dart-cli can be used:
 
 ```
-# Delete the failed version of ZRE-CAN-Tools
-dart-cli --ssh -- root@192.168.0.1 'rm -r /root/zre_cantools/'
-
-# Restore the old version
-dart-cli --ssh -- root@192.168.0.1 'mv /root/zre_cantools_backup/ /root/zre_cantools/'
-
-# Restart the init-system
-dart-cli --ssh -- root@192.168.0.1 'systemctl restart init_system'
+dart-cli --update-zre-cantools=/path/to/init_system/
 ```
+
+**Important: The directory being copied MUST be named "init_system", otherwise the process will fail.**
+
+This command will move the DART's version of the init-system to a backup directory (`/root/init_system_backup`), copy the target version of the init-system onto the DART, and compile said version. If at any point the process fails, the dart-cli will attempt to recover the backup. If this process fails, it is the responsibility of the user to manually restore the backup.
