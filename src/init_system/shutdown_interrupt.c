@@ -11,6 +11,8 @@
 // C Standard Library
 #include <stdlib.h>
 
+// Datatypes ------------------------------------------------------------------------------------------------------------------
+
 // Version 1.x.x implementation
 #if LIBGPIOD_VERSION_MAJOR == 1
 
@@ -217,7 +219,10 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 
 		// If the line is low, exit the function.
 		if (code == 0)
+		{
+			printf (STDIO_PREFIX "Shutdown interrupt received.\n");
 			return 0;
+		}
 	}
 
 	#else // Version 2.x.x or later
@@ -256,7 +261,10 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 
 		// If the line is low, exit the function.
 		if (code == 0)
+		{
+			printf (STDIO_PREFIX "Shutdown interrupt received.\n");
 			return 0;
+		}
 	}
 
 	#endif

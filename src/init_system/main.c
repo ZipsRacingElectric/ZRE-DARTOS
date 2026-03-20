@@ -52,6 +52,8 @@ int getGpioLine (char* str)
  */
 int execPrePostExecApplication (char* application)
 {
+	printf (STDIO_PREFIX "Executing '%s'...\n", application);
+
 	// Executure the pre-exec application
 	pid_t initPid = fork ();
 	if (initPid == 0)
@@ -123,7 +125,7 @@ void checkApplications (char** applicationPathes, pid_t* applicationPids, size_t
  * @param applicationPids The array containing the PID of each application to terminate.
  * @param applicationCount The size of @c applicationPathes and @c applicationPids .
  */
-void terminateApplications (char** applicationPathes, pid_t* applicationPids, size_t applicationCount)
+void terminateApplications (char** applicationPathes, pid_t* applicationPids, size_t applicationCount, struct timespec* timeStart)
 {
 	// Send the termination signal to each application
 	for (size_t index = 0; index < applicationCount; ++index)
@@ -140,7 +142,23 @@ void terminateApplications (char** applicationPathes, pid_t* applicationPids, si
 	}
 
 	// Block until all child applications have terminated.
-	while (!(wait (NULL) == -1 && errno == ECHILD));
+	int pid;
+	do
+	{
+		// Wait for a child application to exit.
+		pid = wait (NULL);
+		if (pid == -1 && errno == ECHILD)
+			break;
+
+		// Print the application that exited and its time.
+		struct timespec timeCurrent;
+		clock_gettime (CLOCK_MONOTONIC, &timeCurrent);
+		float timeDiff = (timeCurrent.tv_sec - timeStart->tv_sec) * 1e3f + (timeCurrent.tv_nsec - timeStart->tv_nsec) * 1e-6f;
+
+		for (size_t index = 0; index < applicationCount; ++index)
+			if (applicationPids [index] == pid)
+				printf ("Application '%s' terminated in %f ms.\n", applicationPathes [index], timeDiff);
+	} while (true);
 }
 
 // Entrypoints ----------------------------------------------------------------------------------------------------------------
@@ -167,12 +185,13 @@ int main (int argc, char** argv)
 
 	// Initialize the shutdown interrupt GPIO. When the device is powering down, this will trigger the init-system to terminate
 	// all child applications.
-	shutdownInterrupt_t* interrupt = shutdownInterruptInit ("init-system", "gpiochip0", gpioLine);
+	shutdownInterrupt_t* interrupt = shutdownInterruptInit ("init-system", gpioChip, gpioLine);
 	if (interrupt == NULL)
 		return errno;
 
 	// Execute the pre-exec application.
-	execPrePostExecApplication (argv [3]);
+	if (execPrePostExecApplication (argv [3]) != 0)
+		return errno;
 
 	// Get the number of applications to execute and their pathes
 	size_t applicationCount = argc - 5;
@@ -204,20 +223,21 @@ int main (int argc, char** argv)
 	clock_gettime (CLOCK_MONOTONIC, &timeStart);
 
 	// Terminate all the remaining applications
-	terminateApplications (applicationPathes, applicationPids, applicationCount);
+	terminateApplications (applicationPathes, applicationPids, applicationCount, &timeStart);
 	free (applicationPids);
+
+	// Release the shutdown GPIO
+	shutdownInterruptDealloc (interrupt);
+
+	// Execute the post-exec application.
+	if (execPrePostExecApplication (argv [4]) != 0)
+		return errno;
 
 	// Finish timing and print to stdout
 	struct timespec timeEnd;
 	clock_gettime (CLOCK_MONOTONIC, &timeEnd);
 	float timeDiff = (timeEnd.tv_sec - timeStart.tv_sec) * 1e3f + (timeEnd.tv_nsec - timeStart.tv_nsec) * 1e-6f;
 	printf (STDIO_PREFIX "All processes terminated in %f ms.\n", timeDiff);
-
-	// Release the shutdown GPIO
-	shutdownInterruptDealloc (interrupt);
-
-	// Execute the post-exec application.
-	execPrePostExecApplication (argv [4]);
 
 	return 0;
 }
