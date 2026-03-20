@@ -11,4 +11,4 @@
 
 # Note: Do not forget the 'exec' command. This command replaces the current shell instance with the process to execute, meaning
 # all received signals are forwarded to the new process.
-exec cage -- $ZRE_CANTOOLS_DIR/bin/dashboard-gui --fullscreen $DART_CONFIG/dashboard_gui.json can0@1000000 $DART_CONFIG/main.dbc
+exec cage -- $ZRE_CANTOOLS_DIR/bin/dashboard-gui --fullscreen --unbuffered $DART_CONFIG/dashboard_gui.json can0@1000000 $DART_CONFIG/main.dbc
