@@ -62,11 +62,11 @@ shutdownInterrupt_t* shutdownInterruptInit (const char* consumer, const char* ch
 		return code;
 	}
 
-	// Request notification of the falling edge event. Also set the GPIO to use a pullup resistor.
-	int code = gpiod_line_request_falling_edge_events_flags (interrupt->line, consumer, GPIOD_LINE_REQUEST_FLAG_BIAS_PULL_UP);
+	// Request notification of the rising edge event. Also set the GPIO to use a pullup resistor.
+	int code = gpiod_line_request_rising_edge_events_flags (interrupt->line, consumer, GPIOD_LINE_REQUEST_FLAG_BIAS_PULL_UP);
 	if (code < 0)
 	{
-		perror (STDIO_PREFIX "Failed to request GPIO line for falling edge notification");
+		perror (STDIO_PREFIX "Failed to request GPIO line for rising edge notification");
 		gpiod_line_release (interrupt->line);
 		gpiod_chip_close (interrupt->chip);
 		return code;
@@ -133,8 +133,8 @@ shutdownInterrupt_t* shutdownInterruptInit (const char* consumer, const char* ch
 		return NULL;
 	}
 
-	// Set the GPIO to use falling edge detection.
-	if (gpiod_line_settings_set_edge_detection (lineSettings, GPIOD_LINE_EDGE_FALLING) != 0)
+	// Set the GPIO to use rising edge detection.
+	if (gpiod_line_settings_set_edge_detection (lineSettings, GPIOD_LINE_EDGE_RISING) != 0)
 	{
 		perror (STDIO_PREFIX "Failed to set GPIO edge detection");
 		gpiod_request_config_free (requestConfig);
@@ -192,7 +192,7 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 
 	while (true)
 	{
-		// Wait for the falling edge event.
+		// Wait for the rising edge event.
 		// - Note I do not know how to use this without a timeout, so we just use 5s here.
 		struct timespec timeout = { 5, 0 };
 		int code = gpiod_line_event_wait (interrupt->line, &timeout);
@@ -209,7 +209,7 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 		struct gpiod_line_event event;
 		gpiod_line_event_read (interrupt->line, &event);
 
-		// Read the state of the GPIO line to check it is still low (wasn't triggered by noise or something).
+		// Read the state of the GPIO line to check it is still high (wasn't triggered by noise or something).
 		code = gpiod_line_get_value (interrupt->line);
 		if (code < 0)
 		{
@@ -217,8 +217,8 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 			continue;
 		}
 
-		// If the line is low, exit the function.
-		if (code == 0)
+		// If the line is high, exit the function.
+		if (code == 1)
 		{
 			printf (STDIO_PREFIX "Shutdown interrupt received.\n");
 			return 0;
@@ -237,7 +237,7 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 
 	while (true)
 	{
-		// Wait indefinitely for the falling edge event.
+		// Wait indefinitely for the rising edge event.
 		int code = gpiod_line_request_wait_edge_events (interrupt->lineRequest, -1);
 		if (code < 0)
 		{
@@ -251,7 +251,7 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 		// Consume the events from the device to indicate they have been handled.
 		gpiod_line_request_read_edge_events (interrupt->lineRequest, eventBuffer, EVENT_BUFFER_CAPACITY);
 
-		// Read the state of the GPIO line to check it is still low (wasn't triggered by noise or something).
+		// Read the state of the GPIO line to check it is still high (wasn't triggered by noise or something).
 		code = gpiod_line_request_get_value (interrupt->lineRequest, interrupt->offsets [0]);
 		if (code < 0)
 		{
@@ -259,8 +259,8 @@ int shutdownInterruptPoll (shutdownInterrupt_t* interrupt)
 			continue;
 		}
 
-		// If the line is low, exit the function.
-		if (code == 0)
+		// If the line is high, exit the function.
+		if (code == 1)
 		{
 			printf (STDIO_PREFIX "Shutdown interrupt received.\n");
 			return 0;
