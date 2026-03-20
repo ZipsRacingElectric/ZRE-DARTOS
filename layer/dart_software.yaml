@@ -21,6 +21,12 @@ mmdebstrap:
     - libgpiod-dev
     - gpiod
 
+    # Miscellaneous packages that are not required, but useful
+    - fdisk
+    - htop
+    - pcmanfm
+    - dolphin-emu
+
   customize-hooks:
 
     # Copy the source code into the destination filesystem and compile it.
