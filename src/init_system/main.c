@@ -52,7 +52,7 @@ int getGpioLine (char* str)
  */
 int execPrePostExecApplication (char* application)
 {
-	printf (STDIO_PREFIX "Executing '%s'...\n", application);
+	printf (STDIO_PREFIX "Executing application '%s'...\n", application);
 
 	// Executure the pre-exec application
 	pid_t initPid = fork ();
@@ -63,7 +63,7 @@ int execPrePostExecApplication (char* application)
 
 		// execvp only returns on failure.
 		int code = errno;
-		fprintf (stderr, STDIO_PREFIX "Failed to execute process '%s': %s.\n", application, strerror (code));
+		fprintf (stderr, STDIO_PREFIX "Failed to execute application '%s': %s.\n", application, strerror (code));
 		return errno;
 	}
 
@@ -93,7 +93,7 @@ void execApplications (char** applicationPathes, pid_t* applicationPids, size_t 
 			// execvp only returns on failure.
 			// - Note: This is in the context of the child application, not the init-system itself, so we cannot allow the
 			//   process to keep running.
-			fprintf (stderr, STDIO_PREFIX "Failed to execute process '%s': %s.\n", applicationPathes [index], strerror (code));
+			fprintf (stderr, STDIO_PREFIX "Failed to execute application '%s': %s.\n", applicationPathes [index], strerror (code));
 			free (applicationPids);
 			exit (errno);
 		}
@@ -170,6 +170,14 @@ int main (int argc, char** argv)
 	{
 		fprintf (stderr, "Invalid usage. Usage: init-system <GPIO Chip> <GPIO Line> <Pre-Execution Application> "
 			"<Post-Execution Application> <Application 0> <Application 1> ...\n");
+		return -1;
+	}
+
+	// Set standard output to unbuffered. Normally, system services write blocks of data to the system journal (~8kB
+	// typically). We want to see output immediately, so here we disable this.
+	if (setvbuf (stdout, NULL, _IONBF, 0) != 0)
+	{
+		perror ("Failed to disable standard output buffering");
 		return -1;
 	}
 
